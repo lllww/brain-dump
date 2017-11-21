@@ -4,8 +4,21 @@
 #include <stdlib.h>
 #include <iostream>
 
+/*
+    
+    This program will keep outputing "Caught FPE".
+
+    Because we have replaced the default SIGFPE handler, which will kill the process.
 
 
+    When FPE is detected, an interrupt is sent to CPU and corresponding ISR is invoked
+    which will send signal to our process thus invoking our SIGFPE handler in our process context.
+
+    Therefore, the pipeline looks like:
+
+    FPE -> Interrupt -> ISR -> SIGFPE -> SIGFPE Handler
+
+*/
 void signal_handler (int signo) {
     if(signo == SIGFPE) {
       std::cout << "Caught FPE\n";
